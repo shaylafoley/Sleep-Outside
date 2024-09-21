@@ -4,6 +4,10 @@ import { defineConfig } from "vite";
 export default defineConfig({
   root: "src/",
 
+  server: {
+    port: 8080, // Added this section to run the server on port 8080
+  },
+
   build: {
     outDir: "../dist",
     rollupOptions: {
