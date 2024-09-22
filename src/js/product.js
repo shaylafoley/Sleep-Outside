@@ -3,7 +3,7 @@ import ProductData from "./ProductData.mjs";
 
 const dataSource = new ProductData("tents");
 function addProductToCart(product) {
-  let cartItems = setLocalStorage('so-cart') || [];
+  let cartItems = setLocalStorage("so-cart") || [];
   
   // Ensure cartItems is always an array
   if (!Array.isArray(cartItems)) {
@@ -16,7 +16,6 @@ function addProductToCart(product) {
   // Save back to local storage
   setLocalStorage('so-cart', cartItems);
 }
-
 
 //function addProductToCart(product) {
 //  setLocalStorage("so-cart", product);
