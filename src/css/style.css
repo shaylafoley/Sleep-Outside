@@ -203,6 +203,31 @@ button {
   grid-column: 3;
 }
 
+
+/* style notification*/
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4caf50; /* green notification*/
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  z-index: 1000;
+  font-size: 16px;
+  display: none; /* hide inicial */
+}
+
+.notification.show {
+  display: block; /* show the notifiction */
+}
+
+.hidden {
+  display: none;
+}
+
+
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
