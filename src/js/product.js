@@ -1,15 +1,15 @@
 import ProductData from "./ProductData.mjs";
-import { setLocalStorage, getParams } from "./utils.mjs";
+import { setLocalStorage, getParams, getLocalStorage } from "./utils.mjs";
 import ProductDetails from "./ProductDetails.mjs";
 
 const dataSource = new ProductData("tents");
 const productId = getParams("product");
 
-const product = new ProductDetails(productId, dataSource);
-product.init();
+const productDetails = new ProductDetails(productId, dataSource);
+productDetails.init();
 
 function addProductToCart(selectedProduct) {
-  let cartItems = setLocalStorage("so-cart") || [];
+  let cartItems = getLocalStorage("so-cart") || [];
 
   // Ensure cartItems is always an array
   if (!Array.isArray(cartItems)) {
@@ -21,6 +21,43 @@ function addProductToCart(selectedProduct) {
 
   // Save back to local storage
   setLocalStorage("so-cart", cartItems);
+
+  renderCart();
+}
+
+function removeProductFromCart(idToRemove) {
+  const cartItems = getLocalStorage("so-cart") || [];
+  const updatedCart = cartItems.filter((item) => item.id !== idToRemove);
+
+  // Save updated cart back to local storage
+  setLocalStorage("so-cart", updatedCart);
+
+  // Re-render cart after removing
+  renderCart();
+}
+
+function renderCart() {
+  const cartItems = getLocalStorage("so-cart") || [];
+  const cartContainer = document.getElementById(".product-list");
+
+  cartContainer.innerHTML = "";
+
+  cartItems.forEach((item) => {
+    const cartItemElement = document.createElement("div");
+    cartItemElement.classList.add("cart-item");
+    cartItemElement.innerHTML = `
+      <span>${item.name} - $${item.price}</span>
+      <span data-id="${item.id}" class="remove-item">X</span>
+    `;
+    cartContainer.appendChild(cartItemElement);
+  });
+
+  document.querySelectorAll(".remove-item").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const eventId = e.target.getAttribute("data-id");
+      removeProductFromCart(eventId);
+    });
+  });
 }
 
 //function addProductToCart(product) {
@@ -36,3 +73,5 @@ async function addToCartHandler(e) {
 document
   .getElementById("addToCart")
   .addEventListener("click", addToCartHandler);
+
+renderCart();
