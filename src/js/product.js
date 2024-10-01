@@ -23,7 +23,6 @@ function addProductToCart(product) {
   // Atualiza o localStorage com o novo carrinho
   setLocalStorage("so-cart", cart);
   alert(`${product.Name} add to card`);
-
 }
 
 // M// add to cart button event handler
