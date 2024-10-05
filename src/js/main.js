@@ -16,7 +16,7 @@ async function loadProducts() {
     const productListing = new ProductListing(
       "Tents",
       productData,
-      listElement,
+      listElement
     );
     await productListing.init();
   } catch (error) {
@@ -24,4 +24,4 @@ async function loadProducts() {
   }
 }
 
-loadProducts();
+// loadProducts();
