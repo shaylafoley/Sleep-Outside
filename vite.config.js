@@ -1,12 +1,11 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
+import ProductListing from "./src/js/ProductList.mjs";
 
 export default defineConfig({
   root: "src/",
 
-  server: {
-    port: 8080,
-  },
+
 
   build: {
     outDir: "../dist",
@@ -14,7 +13,9 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "src/index.html"),
         cart: resolve(__dirname, "src/cart/index.html"),
-        product: resolve(__dirname, "src/product_pages/index.html"), // Updated to use the new product index
+        product: resolve(__dirname, "src/product_pages/index.html"),
+        checkout: resolve(__dirname, "src/checkout/index.html"),
+        productlisting: resolve(__dirname, "src/product-listing/index.html"),
       },
     },
   },
