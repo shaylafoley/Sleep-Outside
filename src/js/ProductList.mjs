@@ -5,15 +5,17 @@ export default class ProductListing {
         this.listElement = listElement;
     }
 
-    async init() {
-        try {
-            const list = await this.dataSource.getProducts(); // Ensure this fetches the products
-            this.render(list);
-        } catch (error) {
-            console.error('Error fetching product data:', error);
-            this.listElement.innerHTML = '<p class="error">Failed to load products. Please try again later.</p>';
-        }
-    }
+     async init() {
+         try {
+             //const list = await this.dataSource.getProducts(); // Ensure this fetches the products
+             //this.render(list);
+             const list = await this.dataSource.getData(this.category);
+         } catch (error) {
+             console.error('Error fetching product data:', error);
+             this.listElement.innerHTML = '<p class="error">Failed to load products. Please try again later.</p>';
+         }
+     }
+
 
     render(products) {
         this.listElement.innerHTML = ""; // Clear existing content
