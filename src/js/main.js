@@ -1,8 +1,7 @@
 import { loadHeaderFooter } from "./utils.mjs";
-import ProductData from "./ProductData.mjs";
-import ProductListing from "./ProductList.mjs";
 
 loadHeaderFooter();
+
 
 const productData = new ProductData("tents");
 
@@ -25,3 +24,4 @@ async function loadProducts() {
 }
 
 // loadProducts();
+
