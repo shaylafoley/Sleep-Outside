@@ -1,9 +1,27 @@
 import { loadHeaderFooter } from "./utils.mjs";
-import ProductListing from "./ProductList.mjs";
 
 loadHeaderFooter();
 
-const listElement = document.querySelector(".product-list"); // Ensure this selector matches your HTML structure
 
-// Call the static method to load and render products
-ProductListing.loadAndRenderProducts(listElement);
+const productData = new ProductData("tents");
+
+async function loadProducts() {
+  try {
+    const products = await productData.getProducts();
+    console.log(products); // Check if products are logged correctly
+
+    const listElement = document.querySelector(".product-list"); // Ensure this selector matches your HTML structure
+
+    const productListing = new ProductListing(
+      "Tents",
+      productData,
+      listElement
+    );
+    await productListing.init();
+  } catch (error) {
+    console.error("Error loading products:", error);
+  }
+}
+
+// loadProducts();
+
