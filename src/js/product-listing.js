@@ -2,14 +2,22 @@ import ProductData from "./ProductData.mjs";
 import ProductList from "./ProductList.mjs";
 import { loadHeaderFooter, getParams } from "./utils.mjs";
 
+// Load header and footer
 loadHeaderFooter();
 
+// Get the category parameter from the URL
 const category = getParams("category");
-// first create an instance of our ProductData class.
+
+// Create an instance of the ProductData class
 const dataSource = new ProductData();
-// then get the element we want the product list to render in
+
+// Get the element where the product list will be rendered
 const listElement = document.querySelector(".product-list");
-// then create an instance of our ProductList class and send it the correct information.
+
+// Create an instance of the ProductList class, passing the necessary data
 const myList = new ProductList(category, dataSource, listElement);
-// finally call the init method to show our products
-myList.init();
+
+// Initialize the product list
+document.addEventListener("DOMContentLoaded", () => {
+    myList.init();
+});

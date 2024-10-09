@@ -1,4 +1,6 @@
-export default class ProductListing {
+import { renderListWithTemplate } from "./utils.mjs";
+
+export default class ProductList {
   constructor(category, dataSource, listElement) {
     this.category = category;
     this.dataSource = dataSource;
@@ -7,8 +9,8 @@ export default class ProductListing {
 
   async init() {
     try {
-      const list = await this.dataSource.getData(this.category);
-      this.render(list);
+      const products = await this.dataSource.getData(this.category); // Assuming getData() returns a JS object
+      this.render(products);
     } catch (error) {
       console.error("Error fetching product data:", error);
       this.listElement.innerHTML =
@@ -17,26 +19,19 @@ export default class ProductListing {
   }
 
   render(products) {
-    this.listElement.innerHTML = ""; // Clear existing content
-    products.forEach((product) => {
-      const productCard = this.createProductCard(product);
-      this.listElement.appendChild(productCard);
-    });
+    renderListWithTemplate(this.createProductCard, this.listElement, products, "afterbegin", true);
   }
 
   createProductCard(product) {
-    const card = document.createElement("li");
-    card.classList.add("product-card");
-
-    card.innerHTML = `
-            <a href="/product_pages/index.html?product=${product.Id}" aria-label="${product.Name}">
-                <img src="${product.Images.PrimaryMedium}" alt="${product.Name}" />
-                <h3>${product.Name}</h3>
-                <p>${product.DescriptionHtmlSimple}</p>
-                <p>Price: $${product.ListPrice.toFixed(2)}</p>
-            </a>
-        `;
-
-    return card;
+    return `
+      <li class="product-card">
+        <a href="/product_pages/index.html?product=${product.Id}" aria-label="${product.Name}">
+          <img src="${product.Images.PrimaryMedium}" alt="${product.Name}" />
+          <h3>${product.Name}</h3>
+          <p>${product.DescriptionHtmlSimple}</p>
+          <p>Price: $${product.ListPrice.toFixed(2)}</p>
+        </a>
+      </li>
+    `;
   }
 }
