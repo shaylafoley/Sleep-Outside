@@ -89,7 +89,10 @@ export default class Cart {
 
   // Calculate the total price of the cart items
   calculateTotalPrice(products) {
-    return products.reduce((total, product) => total + product.FinalPrice * product.quantity, 0);
+    return products.reduce(
+      (total, product) => total + product.FinalPrice * product.quantity,
+      0,
+    );
   }
 
   // Display the total price

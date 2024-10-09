@@ -3,17 +3,47 @@ export default class ProductListing {
     this.category = category;
     this.dataSource = dataSource;
     this.listElement = listElement;
+    this.products = [];
   }
 
-  async init() {
+//   async init() {
+//     try {
+//       const list = await this.dataSource.getData(this.category);
+//       this.render(list);
+//     } catch (error) {
+//       console.error("Error fetching product data:", error);
+//       this.listElement.innerHTML =
+//         "<p class=\"error\">Failed to load products. Please try again later.</p>";
+//     }
+//   }
+async init() {
     try {
       const list = await this.dataSource.getData(this.category);
-      this.render(list);
+      this.products = list; // Store fetched products
+      this.render(this.products); // Render products initially
+
+      // Add event listener to the sort dropdown
+      const sortSelect = document.getElementById('sort-select');
+      sortSelect.addEventListener('change', (event) => this.sortProducts(event.target.value));
     } catch (error) {
-      console.error("Error fetching product data:", error);
+      console.error('Error fetching product data:', error);
       this.listElement.innerHTML =
-        "<p class=\"error\">Failed to load products. Please try again later.</p>";
+        '<p class="error">Failed to load products. Please try again later.</p>';
     }
+  }
+
+  // Sort products based on the selected option
+  sortProducts(sortBy) {
+    let sortedProducts = [...this.products]; // Create a copy of the products array
+
+    if (sortBy === 'name') {
+      sortedProducts.sort((a, b) => a.Name.localeCompare(b.Name));
+    } else if (sortBy === 'price') {
+      sortedProducts.sort((a, b) => a.ListPrice - b.ListPrice);
+    }
+
+    // Re-render products after sorting
+    this.render(sortedProducts);
   }
 
   render(products) {

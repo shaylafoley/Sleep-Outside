@@ -41,7 +41,7 @@
 // document
 //   .getElementById("addToCart")
 //   .addEventListener("click", addToCartHandler() {
-  
+
 //   addProductToCart(product);
 // });
 
@@ -85,12 +85,11 @@ async function addToCartHandler(e) {
   } else {
     console.error("Product not found");
   }
-} 
-  // Add the product to cart
-
+}
+// Add the product to cart
 
 // Add event listener to "Add to Cart" button
 // const addToCartButtons = document.querySelectorAll(".addToCart");
-addToCartButtons.forEach(button => {
+addToCartButtons.forEach((button) => {
   button.addEventListener("click", addToCartHandler);
 });

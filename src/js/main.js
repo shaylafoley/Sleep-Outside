@@ -4,7 +4,6 @@ import ProductListing from "./ProductList.mjs";
 
 loadHeaderFooter();
 
-
 const productData = new ProductData("tents");
 
 async function loadProducts() {
@@ -17,7 +16,7 @@ async function loadProducts() {
     const productListing = new ProductListing(
       "Tents",
       productData,
-      listElement
+      listElement,
     );
     await productListing.init();
   } catch (error) {
@@ -26,4 +25,3 @@ async function loadProducts() {
 }
 
 // loadProducts();
-
