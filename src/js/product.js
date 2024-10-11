@@ -46,10 +46,12 @@
 // });
 
 import { setLocalStorage, getLocalStorage } from "./utils.mjs";
-import ProductData from "./ProductData.mjs";
+import { getParam, loadHeaderFooter } from "./utils.mjs";
+import ExternalServices from "./ExternalServices.mjs";
+import ProductDetails from "./ProductDetails.mjs";
 
 // Initialize dataSource for "tents" category
-const dataSource = new ProductData("tents");
+const dataSource = new ExternalServices("tents");
 
 // Function to add product to cart
 function addProductToCart(product) {
