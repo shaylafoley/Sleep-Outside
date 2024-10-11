@@ -13,15 +13,14 @@ async function loadProducts() {
 
     const listElement = document.querySelector(".product-list"); // Ensure this selector matches your HTML structure
 
-    const productListing = new ProductListing(
-      "Tents",
-      productData,
-      listElement,
-    );
+    const productListing = new ProductListing("Tents", productData, listElement);
     await productListing.init();
   } catch (error) {
     console.error("Error loading products:", error);
   }
 }
 
-// loadProducts();
+// Add DOMContentLoaded event listener
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts(); // Call loadProducts after the DOM is ready
+});
