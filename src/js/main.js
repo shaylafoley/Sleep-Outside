@@ -1,10 +1,10 @@
 import { loadHeaderFooter } from "./utils.mjs";
-import ProductData from "./ProductData.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 import ProductListing from "./ProductList.mjs";
 
 loadHeaderFooter();
 
-const productData = new ProductData("tents");
+const productData = new ExternalServices("tents");
 
 async function loadProducts() {
   try {
