@@ -77,18 +77,36 @@ export default class CheckoutProcess {
     const formElement = document.forms["checkout"];
 
     const json = formDataToJSON(formElement);
-    // add totals, and item details
     json.orderDate = new Date();
     json.orderTotal = this.orderTotal;
     json.tax = this.tax;
     json.shipping = this.shipping;
     json.items = packageItems(this.list);
     console.log(json);
+
     try {
+      // Submit the order
       const res = await services.checkout(json);
-      console.log(res);
+      console.log("Order submitted successfully:", res);
+
+      // Clear the cart (assuming you have a function to do this)
+      localStorage.removeItem("cartItems");
+
+      // Redirect to the success page
+      window.location.href = "/checkout/success.html";
     } catch (err) {
-      console.log(err);
+      console.error("Checkout error:", err);
+      const errorElement = document.querySelector("#checkout-error");
+      if (err.message && err.message.message) {
+        errorElement.textContent = `Error: ${err.message.message}`;
+      } else {
+        errorElement.textContent = "An unexpected error occurred during checkout. Please try again.";
+      }
     }
+  }
+
+  // Add a method to clear the cart
+  clearCart() {
+    localStorage.removeItem("so-cart");
   }
 }

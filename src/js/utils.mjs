@@ -2,26 +2,25 @@
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
 // retrieve data from localstorage
 export function getLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key));
 }
+
 // save data to local storage
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
-// set a listener for both touchend and click
 
+// set a listener for both touchend and click
 export function getParams(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const product = urlParams.get(param)
+  const product = urlParams.get(param);
   return product;
-
 }
+
 export function renderListWithTemplate(
   templateFn,
   parentElement,
@@ -69,4 +68,33 @@ export function setClick(selector, callback) {
     callback();
   });
   qs(selector).addEventListener("click", callback);
+}
+
+// New alertMessage function
+export function alertMessage(message, scroll = true) {
+  // Create element to hold the alert
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+
+  // Set the contents of the alert
+  alert.innerHTML = `
+    <span>${message}</span>
+    <button class="close-alert">X</button>
+  `;
+
+  // Add a listener to the alert to remove it when clicked
+  alert.addEventListener("click", function(e) {
+    if (e.target.classList.contains("close-alert")) {
+      alert.remove();
+    }
+  });
+
+  // Add the alert to the top of main
+  const main = document.querySelector("main");
+  main.prepend(alert);
+
+  // Scroll to the top if required
+  if (scroll) {
+    window.scrollTo(0, 0);
+  }
 }
