@@ -1,15 +1,25 @@
+// src/js/product-listing.js
 import ExternalServices from "./ExternalServices.mjs";
 import ProductList from "./ProductList.mjs";
 import { loadHeaderFooter, getParams } from "./utils.mjs";
 
+// Load header and footer
 loadHeaderFooter();
 
+// Get the category from URL parameters
 const category = getParams("category");
-// first create an instance of our ProductData class.
-const dataSource = new ExternalServices();
-// then get the element we want the product list to render in
+
+// Create an instance of ExternalServices with the API URL
+const dataSource = new ExternalServices("http://server-nodejs.cit.byui.edu:3000/products"); // Adjust to your product endpoint
+
+// Get the element where the product list will be rendered
 const listElement = document.querySelector(".product-list");
-// then create an instance of our ProductList class and send it the correct information.
+
+// Create an instance of ProductList
 const myList = new ProductList(category, dataSource, listElement);
-// finally call the init method to show our products
-myList.init();
+
+// Initialize the product list to show products
+myList.init().catch(error => {
+    console.error("Error initializing product list:", error);
+    listElement.innerHTML = "<p class='error'>Failed to load products. Please try again later.</p>";
+});
