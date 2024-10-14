@@ -2,6 +2,7 @@ import { getLocalStorage } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 
 const services = new ExternalServices();
+
 function formDataToJSON(formElement) {
   const formData = new FormData(formElement),
     convertedJSON = {};
@@ -36,10 +37,13 @@ export default class CheckoutProcess {
     this.tax = 0;
     this.orderTotal = 0;
   }
+
   init() {
     this.list = getLocalStorage(this.key);
+    console.log("Items in cart:", this.list); // Log the cart items
     this.calculateItemSummary();
   }
+
   calculateItemSummary() {
     const summaryElement = document.querySelector(
       this.outputSelector + " #cartTotal"
@@ -47,12 +51,21 @@ export default class CheckoutProcess {
     const itemNumElement = document.querySelector(
       this.outputSelector + " #num-items"
     );
+
+    // Update number of items in cart
     itemNumElement.innerText = this.list.length;
-    // calculate the total of all the items in the cart
+
+    // Calculate the total of all the items in the cart
     const amounts = this.list.map((item) => item.FinalPrice);
-    this.itemTotal = amounts.reduce((sum, item) => sum + item);
-    summaryElement.innerText = "$" + this.itemTotal;
+    this.itemTotal = amounts.reduce((sum, item) => sum + item, 0);
+
+    // Ensure correct formatting to two decimal places
+    summaryElement.innerText = "$" + this.itemTotal.toFixed(2);
+
+    // Call to calculate order total
+    this.calculateOrdertotal();
   }
+
   calculateOrdertotal() {
     this.shipping = 10 + (this.list.length - 1) * 2;
     this.tax = (this.itemTotal * 0.06).toFixed(2);
@@ -63,6 +76,7 @@ export default class CheckoutProcess {
     ).toFixed(2);
     this.displayOrderTotals();
   }
+
   displayOrderTotals() {
     const shipping = document.querySelector(this.outputSelector + " #shipping");
     const tax = document.querySelector(this.outputSelector + " #tax");
@@ -73,11 +87,12 @@ export default class CheckoutProcess {
     tax.innerText = "$" + this.tax;
     orderTotal.innerText = "$" + this.orderTotal;
   }
+
   async checkout() {
     const formElement = document.forms["checkout"];
 
     const json = formDataToJSON(formElement);
-    // add totals, and item details
+    // add totals and item details
     json.orderDate = new Date();
     json.orderTotal = this.orderTotal;
     json.tax = this.tax;
