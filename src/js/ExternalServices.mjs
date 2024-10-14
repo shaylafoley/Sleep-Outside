@@ -1,10 +1,12 @@
 const baseURL = "http://server-nodejs.cit.byui.edu:3000/";
 
-function convertToJson(res) {
+async function convertToJson(res) {
+    const jsonResponse = await res.json(); // Convert the response body to JSON first
     if (res.ok) {
-        return res.json();
+        return jsonResponse; // Return the JSON response if okay
     } else {
-        throw new Error("Bad Response");
+        // Throw an object with name and message properties if not okay
+        throw { name: 'servicesError', message: jsonResponse };
     }
 }
 
@@ -12,7 +14,7 @@ export default class ExternalServices {
     constructor() {
         // No category needed for product details
     }
-  
+
     // Fetch data for a specific product by its ID
     async findProductById(id) {
         try {

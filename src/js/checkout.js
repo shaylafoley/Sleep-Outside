@@ -14,14 +14,23 @@ document
   .addEventListener("blur", myCheckout.calculateOrdertotal.bind(myCheckout));
 
 // Add event listener for the Place Order button
-document.querySelector("#checkoutSubmit").addEventListener("click", (e) => {
-  e.preventDefault();
+const checkoutForm = document.querySelector("#checkout-form");
 
-  const myForm = document.forms[0]; // Get the form
-  const chk_status = myForm.checkValidity(); // Check validity
-  myForm.reportValidity(); // Trigger validity messages
+// Use the form's submit event for better handling
+checkoutForm.addEventListener("submit", async (e) => {
+  e.preventDefault(); // Prevent default form submission
 
-  if (chk_status) {
-    myCheckout.checkout(); // Proceed if valid
+  if (checkoutForm.checkValidity()) { // Check validity
+    try {
+      await myCheckout.checkout(); // Proceed if valid
+      // Optionally, redirect to a success page or display a success message
+      alert("Order placed successfully!");
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      // Optionally, display an error message to the user
+      alert("There was an error placing your order. Please try again.");
+    }
+  } else {
+    checkoutForm.reportValidity(); // Trigger validity messages if invalid
   }
 });

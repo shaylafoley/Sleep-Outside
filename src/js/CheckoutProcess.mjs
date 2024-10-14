@@ -89,10 +89,15 @@ export default class CheckoutProcess {
   }
 
   async checkout() {
-    const formElement = document.forms["checkout"];
+    const formElement = document.forms["checkout"]; 
+    // Check form validity
+    if (!formElement.checkValidity()) {
+      formElement.reportValidity(); // Show validation errors
+      return; // Stop if the form is not valid
+    }
 
     const json = formDataToJSON(formElement);
-    // add totals and item details
+    // Add totals and item details
     json.orderDate = new Date();
     json.orderTotal = this.orderTotal;
     json.tax = this.tax;
@@ -103,21 +108,23 @@ export default class CheckoutProcess {
     try {
       // Submit the order
       const res = await services.checkout(json);
-      console.log("Order submitted successfully:", res);
 
-      // Clear the cart (assuming you have a function to do this)
+      if (!res.ok) { // Check for a successful response
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await res.json(); // Assuming your API returns JSON
+      console.log("Order submitted successfully:", responseData);
+
+      // Clear the cart
       localStorage.removeItem("cartItems");
 
       // Redirect to the success page
       window.location.href = "/checkout/success.html";
     } catch (err) {
       console.error("Checkout error:", err);
-      const errorElement = document.querySelector("#checkout-error");
-      if (err.message && err.message.message) {
-        errorElement.textContent = `Error: ${err.message.message}`;
-      } else {
-        errorElement.textContent = "An unexpected error occurred during checkout. Please try again.";
-      }
+      // Display a custom error message
+      alert("An error occurred during checkout. Please try again."); // Replace alertMessage with a simple alert for testing
     }
   }
 }
