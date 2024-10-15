@@ -1,14 +1,10 @@
 <!doctype html>
-
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Sleep Outside | Checkout</title>
-
   <link rel="stylesheet" href="../css/style.css" />
 </head>
 
@@ -21,42 +17,42 @@
     </section>
     <section class="checkout">
       <h2>Review Form</h2>
-      <form id="checkout-form" class="checkout-form">
+      <form id="checkout-form" name="checkout" class="checkout-form"> <!-- Ensure the name is set for JavaScript reference -->
         <div class="form-group">
           <label for="firstName">First Name:</label>
-          <input type="text" id="firstName" name="firstName" required />
+          <input type="text" id="firstName" name="firstName" required autocomplete="given-name" />
         </div>
         <div class="form-group">
           <label for="lastName">Last Name:</label>
-          <input type="text" id="lastName" name="lastName" required />
+          <input type="text" id="lastName" name="lastName" required autocomplete="family-name" />
         </div>
         <div class="form-group">
           <label for="address">Address:</label>
-          <input type="text" id="address" name="address" required />
+          <input type="text" id="address" name="address" required autocomplete="street-address" />
         </div>
         <div class="form-group">
           <label for="city">City:</label>
-          <input type="text" id="city" name="city" required />
+          <input type="text" id="city" name="city" required autocomplete="address-level2" />
         </div>
         <div class="form-group">
           <label for="state">State:</label>
-          <input type="text" id="state" name="state" required />
+          <input type="text" id="state" name="state" required autocomplete="address-level1" />
         </div>
         <div class="form-group">
           <label for="zip">Zip Code:</label>
-          <input type="text" id="zip" name="zip" required />
+          <input type="text" id="zip" name="zip" required autocomplete="postal-code" />
         </div>
         <div class="form-group">
           <label for="cardNumber">Credit Card Number:</label>
-          <input type="text" id="cardNumber" name="cardNumber" required />
+          <input type="text" id="cardNumber" name="cardNumber" required autocomplete="cc-number" />
         </div>
         <div class="form-group">
           <label for="expiration">Expiration Date:</label>
-          <input type="text" id="expiration" name="expiration" placeholder="MM/YY" required />
+          <input type="text" id="expiration" name="expiration" placeholder="MM/YY" required autocomplete="cc-exp" />
         </div>
         <div class="form-group">
           <label for="securityCode">Security Code:</label>
-          <input type="text" id="securityCode" name="securityCode" required />
+          <input type="text" id="securityCode" name="securityCode" required autocomplete="cc-csc" />
         </div>
         <div class="order-summary">
           <h3>Order Summary</h3>
@@ -66,14 +62,15 @@
           <p>Tax: $<span id="tax">0.00</span></p>
           <p>Order Total: $<span id="orderTotal">0.00</span></p>
         </div>
-        <button type="submit" class="button">Place Order</button>
+        <button type="submit" class="button" id="checkoutSubmit">Place Order</button>
       </form>
     </section>
   </main>
 
   <footer id="main-footer"></footer>
-  <script src="../js/product-listing.js" type="module"></script>
-  <script src="../js/ProductList.mjs" type="module"></script>
+  <script src="../js/utils.mjs" type="module"></script>
+  <script src="../js/ExternalServices.mjs" type="module"></script>
+  <script src="../js/CheckoutProcess.mjs" type="module"></script>
   <script src="../js/checkout.js" type="module"></script>
 </body>
 

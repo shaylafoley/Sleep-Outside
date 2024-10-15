@@ -1,9 +1,9 @@
 import { loadHeaderFooter } from "./utils.mjs";
+import ExternalServices from "./ExternalServices.mjs";
+import ProductDetails from "./ProductDetails.mjs";
+import CheckoutProcess from "./CheckoutProcess.mjs";
 
 loadHeaderFooter();
-
-import ExternalServices from './ExternalServices.mjs'; // Import ExternalServices
-import ProductDetails from './ProductDetails.mjs'; // Import ProductDetails
 
 document.addEventListener("DOMContentLoaded", async () => {
     const productId = new URLSearchParams(window.location.search).get("product"); // Get product ID from URL
@@ -23,4 +23,26 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const productDetails = new ProductDetails(productId, dataSource); // Create instance of ProductDetails
     await productDetails.init(); // Fetch and render product details
+
+    // Initialize the checkout process
+    const myCheckout = new CheckoutProcess("cartItems", "#checkoutOutput"); // Adjust parameters as necessary
+    myCheckout.init(); // Call init to set up initial values
+
+    // Add event listener to the checkout form
+    const form = document.forms["checkout"]; // Ensure your form has the correct name attribute
+    
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault(); // Prevent the default form submission behavior
+
+            const chk_status = form.checkValidity(); // Check validity
+            form.reportValidity(); // Trigger validity messages
+
+            if (chk_status) {
+                myCheckout.checkout(); // Proceed if valid
+            }
+        });
+    } else {
+        console.error("Checkout form not found");
+    }
 });
