@@ -39,8 +39,13 @@ export default class CheckoutProcess {
   }
 
   init() {
-    this.list = getLocalStorage(this.key);
+    this.list = getLocalStorage(this.key) || [];
     console.log("Items in cart:", this.list); // Log the cart items
+    if(this.list.length === 0) {
+      console.log("Cart is empty");
+      console.log(this.outputSelector);
+      document.querySelector(this.outputSelector).innerHTML = "<p>Your cart is empty.</p>";
+    }
     this.calculateItemSummary();
   }
 

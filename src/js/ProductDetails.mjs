@@ -1,10 +1,11 @@
 import { setLocalStorage, getLocalStorage } from "./utils.mjs";
 
 function productDetailsTemplate(product) {
+    
     return `<section class="product-detail"> 
         <h3>${product.Brand.Name}</h3>
         <h2 class="divider">${product.NameWithoutBrand}</h2>
-        <img class="divider" src="${product.Image}" alt="${product.NameWithoutBrand}" />
+        <img class="divider" src="${product.Images.PrimaryLarge}" alt="${product.NameWithoutBrand}" />
         <p class="product-card__price">$${product.FinalPrice}</p>
         <p class="product__color">${product.Colors[0].ColorName}</p>
         <p class="product__description">${product.DescriptionHtmlSimple}</p>

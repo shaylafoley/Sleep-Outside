@@ -22,6 +22,7 @@ export default class Cart {
   render(products) {
     this.listElement.innerHTML = ""; // Clear the existing content
     products.forEach((product) => {
+      console.log('Produto a ser renderizado no carrinho:', product)
       const productCard = this.createCartItemCard(product);
       this.listElement.appendChild(productCard);
     });
@@ -35,9 +36,10 @@ export default class Cart {
   createCartItemCard(product) {
     const card = document.createElement("li");
     card.classList.add("cart-item");
+    console.log('Imagem do produto:', product.Image); 
 
     card.innerHTML = `
-            <img src="${product.Image}" alt="${product.Name}" />
+            <img src="${product.Images.PrimarySmall}" alt="${product.Name}" />
             <h3>${product.Name}</h3>
             <p>Price: $${product.FinalPrice.toFixed(2)}</p>
             <p>Quantity: ${product.quantity}</p>
