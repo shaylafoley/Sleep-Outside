@@ -26,7 +26,7 @@ export default class Cart {
       this.listElement.appendChild(productCard);
     });
 
-    // Optionally, you can calculate and display the total price
+    // Calculate and display the total price
     const totalPrice = this.calculateTotalPrice(products);
     this.displayTotalPrice(totalPrice);
   }
@@ -36,13 +36,32 @@ export default class Cart {
     const card = document.createElement("li");
     card.classList.add("cart-item");
 
+    // Determine if the minus button should be displayed
+    const minusButton = product.quantity > 1 ? `
+        <button class="quantity-decrease" data-id="${product.Id}">-</button>
+    ` : '';
+
     card.innerHTML = `
             <img src="${product.Image}" alt="${product.Name}" />
             <h3>${product.Name}</h3>
             <p>Price: $${product.FinalPrice.toFixed(2)}</p>
-            <p>Quantity: ${product.quantity}</p>
+            <p>Quantity: 
+                ${minusButton}
+                <span class="quantity">${product.quantity}</span>
+                <button class="quantity-increase" data-id="${product.Id}">+</button>
+            </p>
             <button class="remove-item" data-id="${product.Id}">Remove</button>
         `;
+
+    // Add event listeners to quantity buttons
+    if (product.quantity > 1) {
+      card.querySelector(".quantity-decrease").addEventListener("click", () => {
+        this.changeQuantity(product.Id, -1); // Decrease quantity
+      });
+    }
+    card.querySelector(".quantity-increase").addEventListener("click", () => {
+      this.changeQuantity(product.Id, 1); // Increase quantity
+    });
 
     // Add event listener to the remove button
     card.querySelector(".remove-item").addEventListener("click", () => {
@@ -50,6 +69,23 @@ export default class Cart {
     });
 
     return card;
+  }
+
+  // Change the quantity of an item in the cart
+  changeQuantity(productId, change) {
+    const existingItem = this.cartItems.find(item => item.Id === productId);
+
+    if (existingItem) {
+      existingItem.quantity += change;
+
+      // If the quantity is 0 or less, remove the item
+      if (existingItem.quantity < 1) {
+        this.removeItem(productId);
+      } else {
+        localStorage.setItem("so-cart", JSON.stringify(this.cartItems)); // Update local storage
+        this.init(); // Re-render the cart
+      }
+    }
   }
 
   // Calculate the total price of the cart items

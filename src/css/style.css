@@ -115,6 +115,8 @@ button {
   transition: background-color 0.3s;
   font-size: small;
   margin-left: 0;
+  margin-bottom: 20px;
+  padding: 10px;
 }
 
 .remove-item:hover {
@@ -223,6 +225,14 @@ button {
 
 .product-detail img {
   width: 100%;
+}
+
+.divider-cart {
+  padding: 20px;
+  background-color: var(--light-grey);
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 800px;
 }
 
 /* Start cart list card styles */
