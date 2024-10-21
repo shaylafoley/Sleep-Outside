@@ -70,3 +70,22 @@ export function setClick(selector, callback) {
   });
   qs(selector).addEventListener("click", callback);
 }
+
+// function to display an alert message at the top of the main element
+export function alertMessage(message, scroll = true) {
+  const alert = document.createElement('div');
+  alert.classList.add('alert');
+  alert.innerHTML = `${message} <span class="close">X</span>`;
+
+  // Add close functionality
+  alert.querySelector('.close').addEventListener('click', () => {
+    alert.remove();
+  });
+
+  // Insert the alert at the top of the main content
+  const main = document.querySelector('main');
+  main.prepend(alert);
+
+  // Scroll to the top of the page if scroll is true
+  if (scroll) window.scrollTo(0, 0);
+}
